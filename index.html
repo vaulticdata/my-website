@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaultic Data — Enterprise Data Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0a0f1e; --ink2: #1a2240; --surface: #f4f5f8; --white: #ffffff;
+      --accent: #0057ff; --accent2: #00c9a7; --accent3: #ff5e3a;
+      --muted: #6b7280; --border: #e2e5ed; --card: #ffffff;
+      --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--white); color: var(--ink); overflow-x: hidden; }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 68px;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; color: var(--ink); text-decoration: none; letter-spacing: -0.03em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink2); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta { background: var(--ink); color: var(--white) !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 500 !important; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--accent) !important; }
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 5vw 80px; position: relative; overflow: hidden; background: var(--ink);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,87,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,87,255,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(0,87,255,0.18) 0%, transparent 70%); top: -200px; right: -100px; pointer-events: none; }
+    .hero-glow2 { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(0,201,167,0.12) 0%, transparent 70%); bottom: 0; left: 10%; pointer-events: none; }
+    .hero-content { position: relative; max-width: 820px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,87,255,0.15); border: 1px solid rgba(0,87,255,0.3); color: #7aadff; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 2rem; }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+    h1 { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.04em; color: var(--white); margin-bottom: 1.5rem; }
+    h1 .highlight { background: linear-gradient(135deg, #0057ff, #00c9a7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 1.15rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.6); max-width: 540px; margin-bottom: 2.5rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: var(--white); padding: 0.85rem 2rem; border-radius: 8px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,87,255,0.4); }
+    .btn-secondary { background: transparent; color: rgba(255,255,255,0.8); padding: 0.85rem 2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-body); font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .stat-num { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--white); }
+    .stat-num span { color: var(--accent2); }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+    section { padding: 96px 5vw; }
+    .section-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); margin-bottom: 1rem; }
+    .section-sub { font-size: 1rem; color: var(--muted); line-height: 1.7; max-width: 540px; margin-bottom: 3.5rem; }
+    #tech-bar { background: var(--surface); padding: 20px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .ticker-track { display: flex; gap: 2.5rem; animation: ticker 32s linear infinite; width: max-content; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-item { font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+    .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+    #services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .service-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
+    .service-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+    .service-card h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+    .service-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.04em; padding: 3px 10px; border-radius: 20px; background: var(--surface); color: var(--ink2); border: 1px solid var(--border); }
+    #why { background: var(--ink); }
+    #why h2 { color: var(--white); }
+    #why .section-sub { color: rgba(255,255,255,0.5); }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .why-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.75rem; transition: background 0.2s, border-color 0.2s; }
+    .why-card:hover { background: rgba(0,87,255,0.08); border-color: rgba(0,87,255,0.3); }
+    .why-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: var(--accent); margin-bottom: 0.5rem; line-height: 1; }
+    .why-card h4 { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+    .why-card p { font-size: 0.83rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-visual { position: relative; border-radius: 16px; overflow: hidden; background: var(--ink); min-height: 380px; display: flex; align-items: center; justify-content: center; }
+    .about-visual-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; width: 100%; height: 100%; position: absolute; inset: 0; }
+    .about-quad { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+    .about-quad .aq-num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 800; color: var(--white); }
+    .about-quad .aq-num em { color: var(--accent2); font-style: normal; }
+    .about-quad .aq-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); text-align: center; margin-top: 4px; }
+    .about-text h2 { margin-bottom: 1.25rem; }
+    .about-text p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    #process { background: var(--white); }
+    .process-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .process-step { padding: 2.5rem 2rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; }
+    .process-step:last-child { border-right: none; }
+    .step-num { font-family: var(--font-display); font-size: 3rem; font-weight: 800; color: var(--surface); line-height: 1; margin-bottom: 1rem; }
+    .process-step h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+    .process-step p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .step-accent { position: absolute; top: 2.5rem; right: 2rem; width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+    #contact { background: var(--ink); }
+    #contact h2 { color: var(--white); }
+    #contact .section-sub { color: rgba(255,255,255,0.5); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); }
+    .form-group input, .form-group select, .form-group textarea { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0.75rem 1rem; color: var(--white); font-family: var(--font-body); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group select option { background: var(--ink2); color: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+    .contact-info-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .ci-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(0,87,255,0.15); border: 1px solid rgba(0,87,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .ci-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-bottom: 3px; }
+    .ci-value { font-size: 0.95rem; color: var(--white); font-weight: 500; }
+    footer { background: #060a17; padding: 2.5rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: var(--white); text-decoration: none; letter-spacing: -0.03em; }
+    .footer-logo span { color: var(--accent); }
+    footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-links a:hover { color: var(--white); }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .about-visual { min-height: 260px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Vaultic<span>Data</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Enterprise Data Solutions</div>
+    <h1>Your Data.<br><span class="highlight">Engineered to Perform.</span></h1>
+    <p class="hero-sub">Vaultic Data delivers end-to-end database management, cloud migration, analytics, and data integration services — built for enterprises that run on data.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Get a Free Consultation →</a>
+      <a href="#services" class="btn-secondary">Explore Services</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">20<span>+</span></div><div class="stat-label">Technologies Supported</div></div>
+      <div><div class="stat-num">100<span>%</span></div><div class="stat-label">Client Satisfaction</div></div>
+      <div><div class="stat-num">24<span>/7</span></div><div class="stat-label">Support Available</div></div>
+    </div>
+  </div>
+</section>
+
+<div id="tech-bar">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span>Oracle</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>MS SQL Server</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>MongoDB</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>MySQL</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>PostgreSQL</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Azure Cloud</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>AWS</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Google Cloud</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Informatica</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Power BI</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>ETL Pipelines</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>GoldenGate</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Kubernetes</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Jenkins</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>SSIS · SSRS · SSAS</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Data Warehousing</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Python</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Autosys</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Oracle</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>MS SQL Server</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>MongoDB</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>MySQL</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>PostgreSQL</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Azure Cloud</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>AWS</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Google Cloud</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Informatica</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Power BI</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>ETL Pipelines</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>GoldenGate</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Kubernetes</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Jenkins</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>SSIS · SSRS · SSAS</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Data Warehousing</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Python</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Autosys</span>
+  </div>
+</div>
+
+<section id="services">
+  <span class="section-tag">What We Do</span>
+  <h2>Comprehensive Data Services</h2>
+  <p class="section-sub">From database administration to cloud-native architectures — we cover every layer of your data ecosystem.</p>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-icon" style="background:#eef4ff;">🗄️</div>
+      <h3>Database Management</h3>
+      <p>Expert DBA services for relational and NoSQL databases. Installation, tuning, backup, recovery, and 24/7 monitoring.</p>
+      <div class="service-tags"><span class="tag">Oracle</span><span class="tag">MS SQL</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span></div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon" style="background:#f0fff8;">🔄</div>
+      <h3>Data Integration &amp; ETL</h3>
+      <p>Seamlessly move and transform data across systems. We build robust pipelines that keep your data flowing reliably.</p>
+      <div class="service-tags"><span class="tag">ETL</span><span class="tag">Informatica</span><span class="tag">SSIS</span><span class="tag">GoldenGate</span></div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon" style="background:#fff5f0;">☁️</div>
+      <h3>Cloud Services</h3>
+      <p>Migrate, optimize, and manage your data infrastructure on the cloud platform that fits your business needs.</p>
+      <div class="service-tags"><span class="tag">Azure</span><span class="tag">AWS</span><span class="tag">Google Cloud</span></div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon" style="background:#f5f0ff;">📦</div>
+      <h3>Data Warehousing</h3>
+      <p>Design and build scalable data warehouses and data marts. Full lifecycle support from architecture to delivery.</p>
+      <div class="service-tags"><span class="tag">DWH Design</span><span class="tag">Data Migration</span><span class="tag">SSAS</span></div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon" style="background:#fff8e6;">📊</div>
+      <h3>Analytics &amp; Business Intelligence</h3>
+      <p>Turn raw data into actionable insights with beautiful dashboards, reports, and advanced analytics solutions.</p>
+      <div class="service-tags"><span class="tag">Power BI</span><span class="tag">SSRS</span><span class="tag">Python</span><span class="tag">Data Analytics</span></div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon" style="background:#f0fff4;">⚙️</div>
+      <h3>DevOps &amp; Automation</h3>
+      <p>Automate workflows, orchestrate jobs, and containerize data workloads for faster, more reliable deployments.</p>
+      <div class="service-tags"><span class="tag">Jenkins</span><span class="tag">Kubernetes</span><span class="tag">Autosys</span><span class="tag">SQL Perf.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <span class="section-tag" style="color:var(--accent2);">Why Choose Us</span>
+  <h2>Built for Enterprise.<br>Delivered with Precision.</h2>
+  <p class="section-sub">We don't just manage databases — we engineer data systems that scale with your business.</p>
+  <div class="why-grid">
+    <div class="why-card fade-up"><div class="why-num">20+</div><h4>Technologies</h4><p>Full-stack expertise across databases, cloud, BI, integration, and DevOps tools.</p></div>
+    <div class="why-card fade-up"><div class="why-num">24/7</div><h4>Support Coverage</h4><p>Round-the-clock monitoring and incident response for mission-critical systems.</p></div>
+    <div class="why-card fade-up"><div class="why-num">0</div><h4>Data Loss Guarantee</h4><p>Strict backup, replication, and DR policies on every engagement.</p></div>
+    <div class="why-card fade-up"><div class="why-num">→</div><h4>Outcome-Focused</h4><p>We measure success by your results — performance, uptime, and business impact.</p></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-visual-inner">
+        <div class="about-quad"><div class="aq-num">DB<em>A</em></div><div class="aq-label">Expert DBAs</div></div>
+        <div class="about-quad"><div class="aq-num" style="font-size:1.8rem;">Cloud</div><div class="aq-label">Multi-cloud Ready</div></div>
+        <div class="about-quad"><div class="aq-num">ETL</div><div class="aq-label">Data Pipelines</div></div>
+        <div class="about-quad"><div class="aq-num">BI<em>+</em></div><div class="aq-label">Analytics &amp; Reports</div></div>
+      </div>
+    </div>
+    <div class="about-text fade-up">
+      <span class="section-tag">About Vaultic Data</span>
+      <h2>Your Trusted Data Engineering Partner</h2>
+      <p>Vaultic Data was founded to help businesses unlock the true potential of their data. We specialize in database services, cloud migrations, ETL pipelines, and BI solutions that drive real business outcomes.</p>
+      <p>Our certified engineers bring deep expertise across Oracle, SQL Server, MongoDB, cloud platforms, and modern analytics tools — delivering solutions that are reliable, secure, and built to scale.</p>
+      <a href="#contact" class="btn-primary">Work With Us →</a>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <span class="section-tag">How We Work</span>
+  <h2>Our Engagement Process</h2>
+  <p class="section-sub">A structured, transparent approach that keeps you informed at every stage.</p>
+  <div class="process-steps">
+    <div class="process-step fade-up"><div class="step-num">01</div><div class="step-accent"></div><h4>Discovery &amp; Assessment</h4><p>We audit your current data environment, understand your goals, and identify gaps and opportunities.</p></div>
+    <div class="process-step fade-up"><div class="step-num">02</div><div class="step-accent"></div><h4>Solution Design</h4><p>Our architects design a tailored solution with clear timelines, milestones, and success metrics.</p></div>
+    <div class="process-step fade-up"><div class="step-num">03</div><div class="step-accent"></div><h4>Implementation</h4><p>We execute with minimal disruption, following best practices and your approval at each step.</p></div>
+    <div class="process-step fade-up"><div class="step-num">04</div><div class="step-accent"></div><h4>Support &amp; Optimization</h4><p>Ongoing monitoring, performance tuning, and continuous improvement to keep systems at peak.</p></div>
+  </div>
+</section>
+
+<section id="contact">
+  <span class="section-tag" style="color:var(--accent2);">Get in Touch</span>
+  <h2>Let's Build Something Great</h2>
+  <p class="section-sub">Tell us about your data challenges. We'll respond within 24 hours with a free consultation.</p>
+  <div class="contact-grid">
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="John"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Smith"/></div>
+      </div>
+      <div class="form-group"><label>Work Email</label><input type="email" placeholder="john@company.com"/></div>
+      <div class="form-group"><label>Company</label><input type="text" placeholder="Your company name"/></div>
+      <div class="form-group">
+        <label>Service Needed</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Database Management (Oracle / MSSQL / MySQL / Postgres / MongoDB)</option>
+          <option>Data Integration &amp; ETL</option>
+          <option>Cloud Services (Azure / AWS / GCP)</option>
+          <option>Data Warehousing &amp; Migration</option>
+          <option>Analytics &amp; Business Intelligence</option>
+          <option>DevOps &amp; Automation</option>
+          <option>SQL Performance Optimization</option>
+          <option>Other / Multiple Services</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea placeholder="Describe your project or challenge..."></textarea></div>
+      <button type="submit" class="btn-primary">Send Message →</button>
+    </form>
+    <div class="contact-info fade-up">
+      <div class="contact-info-item"><div class="ci-icon">📧</div><div><div class="ci-label">Email Us</div><div class="ci-value">contact@vaulticdata.com</div></div></div>
+      <div class="contact-info-item"><div class="ci-icon">🌐</div><div><div class="ci-label">Website</div><div class="ci-value">www.vaulticdata.com</div></div></div>
+      <div class="contact-info-item"><div class="ci-icon">⏱️</div><div><div class="ci-label">Response Time</div><div class="ci-value">Within 24 business hours</div></div></div>
+      <div class="contact-info-item"><div class="ci-icon">🔒</div><div><div class="ci-label">Confidentiality</div><div class="ci-value">All enquiries are strictly confidential</div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">Vaultic<span>Data</span></a>
+  <p>© 2025 Vaultic Data. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = '#00c9a7';
+    setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
